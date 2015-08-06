@@ -121,13 +121,15 @@ var binpacking = (function(){
      * 
      * @param centerx, centery: Center of Rect
      * @param width,height: Size of Rect
+     * @param properties: OPTIONAL Object w/ properties
      * @return Rect object to be used for packing
      **/
-    function Rect(centerx, centery, width, height){
+    function Rect(centerx, centery, width, height, properties){
         this.x = centerx;
         this.y = centery;
         this.width = width;
         this.height = height;
+        this.properties = properties || {};
         this.calculateBounds();
     }
 
@@ -172,11 +174,29 @@ var binpacking = (function(){
     }
 
     /**
-     * Clones rect, creates deep copy.
+     * Creates new Rect from existing Rect, note that properties is not deep
+     * copied
      **/
     Rect.prototype.clone = function(){
-        return new Rect(this.x, this.y, this.width, this.height);
+        return new Rect(this.x, this.y, this.width, this.height, this.properties);
     };
+
+    /**
+     * Adds property to Rect object (often font size or text value)
+     *
+     * @param propName String: Property name
+     * @param propValue: Property value
+     **/
+    Rect.prototype.addProperty = function(propName, propValue){
+        this.properties[propName] = propValue;
+    };
+
+    /**
+     * Returns a previously stored property
+     **/
+    Rect.prototype.getProperty = function(propName){
+        return this.properties[propName];
+    }
 
 
     return {
