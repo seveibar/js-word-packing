@@ -20,15 +20,17 @@ var binpacking = (function(){
      **/
     function pack(area, rects, maxDistanceFactor){
         var placedRects = [];
+        var unplaced = 0;
         for (var i = 0;i < rects.length;i++){
             var placedRect = placeRect(rects[i], placedRects, area, maxDistanceFactor);
             if (placedRect == null){
                 // Rect could not be placed
-                console.log("Rect could not be placed");
+                unplaced++;
             }else{
                 placedRects.push(placedRect);
             }
         }
+        console.log(unplaced + " rects could not be placed");
         return placedRects;
     }
 
