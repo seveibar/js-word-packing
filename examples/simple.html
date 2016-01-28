@@ -1,0 +1,52 @@
+<html>
+	<head>
+		<script src='../binpacking.js'></script>
+	</head>
+	<body>
+		<canvas id='canvas'></canvas>
+
+		<script>
+
+		var canvas = document.getElementById("canvas");
+		var context = canvas.getContext('2d');
+
+		canvas.width = 600;
+		canvas.height = 600;
+
+		var area = new binpacking.Rect(300,300,550,550);
+
+		// ------------------------------------------------------------
+		// Example with just rectangles, shows how to bin packing works
+		// ------------------------------------------------------------
+
+		var rects = [];
+		for (var i = 0;i < 20;i++){
+			rects.push(new binpacking.Rect(
+				Math.random() * 100 - 50 + 300,
+				Math.random() * 100 - 50 + 300,
+				50+Math.pow(Math.random(),2) * 300,
+				50+Math.pow(Math.random(),2) * 300));
+		}
+
+		rects.sort(function(a,b){
+			return b.size - a.size;
+		});
+
+		context.globalAlpha = .3;
+		area.draw(context);
+		for (var i = 0; i < rects.length;i++){
+			rects[i].draw(context);
+		}
+		context.globalAlpha = .3;
+		context.fillStyle = "#fff";
+		context.fillRect(0,0,canvas.width, canvas.height);
+		context.globalAlpha = 1;
+
+		var placedRects = binpacking.pack(area, rects, 10);
+		for (var i = 0; i < placedRects.length;i++){
+			placedRects[i].draw(context);
+		}
+
+		</script>
+	</body>
+</html>
